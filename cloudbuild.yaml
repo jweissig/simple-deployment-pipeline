@@ -1,0 +1,23 @@
+steps:
+  - name: "gcr.io/cloud-builders/go"
+    env: ["PROJECT_ROOT=web"]
+    args: ["get", "."]
+    id: "go-get"
+
+  - name: "gcr.io/cloud-builders/go"
+    env: ["PROJECT_ROOT=web"]
+    args: ["install", "-ldflags", "-X main.buildrevision=$SHORT_SHA", "."]
+    id: "go-install"
+
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["build", "-t", "gcr.io/$PROJECT_ID/demo:$SHORT_SHA", "."]
+    id: "docker-build"
+
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args: ['set', 'image', 'deployment/demo', 'demo=gcr.io/$PROJECT_ID/demo:$SHORT_SHA']
+    env:
+      - 'CLOUDSDK_COMPUTE_ZONE=us-west1-b'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=XXXXXXXXX'
+    id: "kubectl-deploy"
+
+images: ["gcr.io/$PROJECT_ID/demo:$SHORT_SHA"]
