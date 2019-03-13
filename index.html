@@ -180,7 +180,8 @@
         <div class="seven wide column">
           <h4 class="ui inverted header">Footer</h4>
           <p>Educational site used for demonstration of <strike>sysadmin</strike> devops tooling (<a href="/debug">debug</a>).<br>
-            Deployed using a very <a href="https://sysadmincasts.com/episodes/58-simple-deployment-pipeline">Simple Deployment Pipeline</a>.</p>
+             Deployed using a very <a href="https://sysadmincasts.com/episodes/58-simple-deployment-pipeline">Simple Deployment Pipeline</a>.<br>
+             {{ if ne .City "" }}Visiting from {{.City}}? Guessed using <a href="https://sysadmincasts.com/episodes/60-ip-geolocation-using-google-cloud-load-balancers">IP Geolocation</a>.{{end}}</p>
         </div>
       </div>
     </div>

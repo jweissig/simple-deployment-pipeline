@@ -26,16 +26,24 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, "Error:", err)
 	}
 
+	// get client city and region
+	clientCity := r.Header.Get("X-Client-City")
+	clientRegion := r.Header.Get("X-Client-Region")
+
 	data := struct {
 		Title         string
 		Hostname      string
 		BuildDate     string
 		BuildreVision string
+		City          string
+		Region        string
 	}{
 		Title:         "Kubernetes Pod Load Balancer Demo (refresh page)",
 		Hostname:      hostname,
 		BuildDate:     builddate,
 		BuildreVision: buildrevision,
+		City:          clientCity,
+		Region:        clientRegion,
 	}
 
 	t, err := template.New("index.html").ParseFiles("index.html")
@@ -115,7 +123,7 @@ func bootstrapHandler(next http.HandlerFunc) http.HandlerFunc {
 }
 
 var (
-	builddate     = "2019-02-27"
+	builddate     = "2019-03-10"
 	buildrevision = ""
 )
 
